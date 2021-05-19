@@ -2,6 +2,8 @@
 census/
 geo_voters/
 minimal_geo_voters/
+probability_point/
+probability_table/
 voters/
 deputies_with_participation.csv
 deputies_with_probability.csv

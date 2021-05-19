@@ -1,7 +1,7 @@
-import os
-import asyncio
-import aiohttp
-
+from os.path import exists
+from os import mkdir
+from asyncio import gather, run
+from aiohttp import ClientSession
 from json import load, dump
 from csv import reader, writer
 
@@ -56,14 +56,14 @@ voters_header = [
 
 
 def has_voters():
-    return os.path.exists(voters_json_path)
+    return exists(voters_json_path)
 
 
 def generate_voters():
     print("Generating voters")
 
-    if not os.path.exists(voters_path):
-        os.mkdir(voters_path)
+    if not exists(voters_path):
+        mkdir(voters_path)
 
     census_json = load(open(census_json_path, encoding="utf-8"))
     for file_name in census_json.values():
@@ -94,7 +94,7 @@ geo_voters_header = [
 
 
 def has_geo_voters():
-    return os.path.exists(geo_voters_json_path)
+    return exists(geo_voters_json_path)
 
 
 async def worker_generate_geo_voters_table(session, data_table_path):
@@ -128,7 +128,7 @@ async def worker_generate_geo_voters():
     voters_files_paths = [
         voters_path / voters_file_name for voters_file_name in voters_json.values()]
 
-    async with aiohttp.ClientSession() as session:
+    async with ClientSession() as session:
         tasks = [
             worker_generate_geo_voters_table(session, voters_file_path)
             for voters_file_path in voters_files_paths
@@ -154,7 +154,7 @@ minimal_geo_voters_header = [
 
 
 def has_minimal_geo_voters():
-    return os.path.exists(minimal_geo_voters_json_path)
+    return exists(minimal_geo_voters_json_path)
 
 
 def generate_minimal_geo_voters():
@@ -162,8 +162,8 @@ def generate_minimal_geo_voters():
 
     assert has_geo_voters()
 
-    if not os.path.exists(minimal_geo_voters_path):
-        os.mkdir(minimal_geo_voters_path)
+    if not exists(minimal_geo_voters_path):
+        mkdir(minimal_geo_voters_path)
 
     geo_voters_json = load(open(geo_voters_json_path, encoding="utf-8"))
     for file_name in geo_voters_json.values():
@@ -201,7 +201,7 @@ deputies_with_participation_header = [
 
 
 def has_deputies_with_participation():
-    return os.path.exists(deputies_with_participation_path)
+    return exists(deputies_with_participation_path)
 
 
 def generate_deputies_with_participation():
@@ -320,7 +320,7 @@ deputies_with_probability_header = [
 
 
 def has_deputies_with_probability():
-    return os.path.exists(deputies_with_probability_path)
+    return exists(deputies_with_probability_path)
 
 
 def generate_deputies_with_probability():
@@ -370,7 +370,7 @@ minimal_deputies_with_probability_header = [
 
 
 def has_minimal_deputies_with_probability():
-    return os.path.exists(minimal_deputies_with_probability_path)
+    return exists(minimal_deputies_with_probability_path)
 
 
 def generate_minimal_deputies_with_probability():
@@ -397,7 +397,7 @@ def generate_minimal_deputies_with_probability():
 
 def setup():
     print("Starting setup")
-    
+
     if not has_voters():
         generate_voters()
 
@@ -415,4 +415,3 @@ def setup():
 
     if not has_minimal_deputies_with_probability():
         generate_minimal_deputies_with_probability()
-

@@ -13,6 +13,8 @@ census_json_path = census_path / "census.json"
 
 deputies_path = database_path / "deputies.csv"
 
+geojson_path = database_path / "geojson/"
+
 if not database_path.is_dir():
     raise Exception("The database/ folder does not exist")
 

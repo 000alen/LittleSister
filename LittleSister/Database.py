@@ -4,8 +4,10 @@ from asyncio import gather, run
 from aiohttp import ClientSession
 from json import load, dump
 from csv import reader, writer
+from geopandas import read_file, points_from_xy
+from pandas import read_csv
 
-from LittleSister import database_path, census_path, census_json_path, deputies_path
+from LittleSister import database_path, census_path, census_json_path, deputies_path, geojson_path
 
 census_header = [
     "RUT",
@@ -134,13 +136,56 @@ async def worker_generate_geo_voters():
             for voters_file_path in voters_files_paths
         ]
 
-        await asyncio.gather(*tasks)
+        await gather(*tasks)
 
 
 def generate_geo_voters():
     print("Generating geo_voters")
     print("Pelias service must be running")
-    asyncio.run(worker_generate_geo_voters())
+    run(worker_generate_geo_voters())
+
+
+geo_voters_threshold_path = database_path / "geo_voters_threshold/"
+geo_voters_threshold_json_path = geo_voters_threshold_path / \
+    "geo_voters_threshold.json"
+geo_voters_threshold_header = [
+    "latitude",
+    "longitude",
+    "Circunscripcion",
+    "Local?",
+    "Mesa"
+]
+
+
+def has_geo_voters_threshold():
+    return exists(geo_voters_threshold_json_path)
+
+
+def generate_geo_voters_threshold():
+    print("Generating geo_voters_threshold")
+
+    if not exists(geo_voters_threshold_path):
+        mkdir(geo_voters_threshold_path)
+
+    geo_voters_json = load(open(geo_voters_json_path, encoding="utf-8"))
+    for identifier, file_name in geo_voters_json.items():
+        print(f"current: {identifier}")
+
+        current_geo_voters = read_csv(geo_voters_path / file_name)
+
+        current_points = points_from_xy(
+            current_geo_voters.longitude, current_geo_voters.latitude)
+
+        current_geojson = read_file(geojson_path / f"{identifier}.geojson")
+
+        for i, current_point in enumerate(current_points):
+            if not current_geojson.geometry.contains(current_point).any():
+                current_geo_voters.drop(i, inplace=True)
+
+        current_geo_voters.to_csv(
+            geo_voters_threshold_path / file_name, index=False)
+
+    dump(geo_voters_json, open(geo_voters_json_path, "w", encoding="utf-8"))
 
 
 minimal_geo_voters_path = database_path / "minimal_geo_voters/"
@@ -160,24 +205,28 @@ def has_minimal_geo_voters():
 def generate_minimal_geo_voters():
     print("Generating minimal_geo_voters")
 
-    assert has_geo_voters()
+    assert has_geo_voters_threshold()
 
     if not exists(minimal_geo_voters_path):
         mkdir(minimal_geo_voters_path)
 
-    geo_voters_json = load(open(geo_voters_json_path, encoding="utf-8"))
-    for file_name in geo_voters_json.values():
-        current_geo_voters = reader(open(geo_voters_path / file_name))
+    geo_voters_threshold_json = load(
+        open(geo_voters_threshold_json_path, encoding="utf-8"))
+    for file_name in geo_voters_threshold_json.values():
+        current_geo_voters_threshold = reader(
+            open(geo_voters_threshold_path / file_name))
         current_minimal_geo_voters = writer(
             open(minimal_geo_voters_path / file_name, "w", newline=""))
 
-        for row in current_geo_voters:
-            row = {geo_voters_header[i]: row[i] for i in range(len(row))}
+        for row in current_geo_voters_threshold:
+            row = {geo_voters_threshold_header[i]: row[i]
+                   for i in range(len(row))}
 
             current_minimal_geo_voters.writerow(
                 [row[key] for key in minimal_geo_voters_header])
 
-    dump(geo_voters_json, open(minimal_geo_voters_json_path, "w", encoding="utf-8"))
+    dump(geo_voters_threshold_json, open(
+        minimal_geo_voters_json_path, "w", encoding="utf-8"))
 
 
 deputies_with_participation_path = database_path / \

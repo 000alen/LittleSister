@@ -1,8 +1,9 @@
 .vscode/
 census/
 geo_voters/
+geo_voters_threshold/
 minimal_geo_voters/
-minimal_geo_voters_no_threshold/
+minimal_geo_voters_naive_threshold/
 probability_point/
 probability_table/
 voters/

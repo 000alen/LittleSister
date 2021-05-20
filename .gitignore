@@ -1,19 +1,21 @@
 .vscode/
 census/
-geo_voters/
-geo_voters_threshold/
-minimal_geo_voters/
-minimal_geo_voters_naive_threshold/
-probability_point/
-probability_table/
-voters/
+deputies.csv
+geojson/
+
+Voters/
+UnfilteredGeolocalizedVoters/
+GeolocalizedVoters/
+MinimalGeolocalizedVoters/
+
+ProbabilityTable/
+ProbabilityPoint/
+
 deputies_with_participation.csv
 deputies_with_probability.csv
 minimal_deputies_with_probability.csv
-deputies.csv
-sandbox.*
-notebook/
-geojson/
+
+dev_notebook/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

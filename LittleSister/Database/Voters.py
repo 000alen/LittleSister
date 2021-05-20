@@ -5,8 +5,8 @@ import LittleSister.Database as Database
 
 
 class Voters(Database.Database):
-    path = Database.path / "voters/"
-    json_path = path / "voters.json"
+    path = Database.path / "Voters/"
+    json_path = path / "Voters.json"
 
     header = [
         "Domicilio",

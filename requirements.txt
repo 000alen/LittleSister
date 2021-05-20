@@ -1,1 +1,4 @@
 aiohttp
+pandas
+geopandas
+folium

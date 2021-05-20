@@ -4,12 +4,12 @@ import geopandas
 import pandas
 
 import LittleSister.Database as Database
-from LittleSister.Database.GeoVoters import GeoVoters
+from LittleSister.Database.UnfilteredGeolocalizedVoters import UnfilteredGeolocalizedVoters
 
 
-class GeoVotersThreshold(Database.Database):
-    path = Database.path / "geo_voters_threshold/"
-    json_path = path / "geo_voters_threshold.json"
+class GeolocalizedVoters(Database.Database):
+    path = Database.path / "GeolocalizedVoters/"
+    json_path = path / "GeolocalizedVoters.json"
 
     header = [
         "latitude",
@@ -21,21 +21,21 @@ class GeoVotersThreshold(Database.Database):
 
     @staticmethod
     def exists():
-        return os.path.exists(GeoVotersThreshold.path)
+        return os.path.exists(GeolocalizedVoters.path)
 
     @staticmethod
     def generate():
         print("Generating geo_voters_threshold")
 
-        if not os.path.exists(GeoVotersThreshold.path):
-            os.mkdir(GeoVotersThreshold.path)
+        if not os.path.exists(GeolocalizedVoters.path):
+            os.mkdir(GeolocalizedVoters.path)
 
         geo_voters_json = json.load(
-            open(GeoVoters.json_path, encoding="utf-8"))
+            open(UnfilteredGeolocalizedVoters.json_path, encoding="utf-8"))
         for identifier, file_name in geo_voters_json.items():
             print(f"current: {identifier}")
 
-            current_geo_voters = pandas.read_csv(GeoVoters.path / file_name)
+            current_geo_voters = pandas.read_csv(UnfilteredGeolocalizedVoters.path / file_name)
 
             current_points = geopandas.points_from_xy(
                 current_geo_voters.longitude, current_geo_voters.latitude)
@@ -48,7 +48,7 @@ class GeoVotersThreshold(Database.Database):
                     current_geo_voters.drop(i, inplace=True)
 
             current_geo_voters.to_csv(
-                GeoVotersThreshold.path / file_name, index=False)
+                GeolocalizedVoters.path / file_name, index=False)
 
         json.dump(geo_voters_json, open(
-            GeoVotersThreshold.json_path, "w", encoding="utf-8"))
+            GeolocalizedVoters.json_path, "w", encoding="utf-8"))

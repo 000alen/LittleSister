@@ -106,9 +106,9 @@ def generate():
     print("Starting setup")
 
     from LittleSister.Database.Voters import Voters
-    from LittleSister.Database.GeoVoters import GeoVoters
-    from LittleSister.Database.GeoVotersThreshold import GeoVotersThreshold
-    from LittleSister.Database.MinimalGeoVoters import MinimalGeoVoters
+    from LittleSister.Database.UnfilteredGeolocalizedVoters import UnfilteredGeolocalizedVoters
+    from LittleSister.Database.GeolocalizedVoters import GeolocalizedVoters
+    from LittleSister.Database.MinimalGeolocalizedVoters import MinimalGeolocalizedVoters
     from LittleSister.Database.DeputiesWithParticipation import DeputiesWithParticipation
     from LittleSister.Database.DeputiesWithProbability import DeputiesWithProbability
     from LittleSister.Database.MinimalDeputiesWithProbability import MinimalDeputiesWithProbability
@@ -116,14 +116,14 @@ def generate():
     if not Voters.exists():
         Voters.generate()
 
-    if not GeoVoters.exists():
-        GeoVoters.generate()
+    if not UnfilteredGeolocalizedVoters.exists():
+        UnfilteredGeolocalizedVoters.generate()
 
-    if not GeoVotersThreshold.exists():
-        GeoVotersThreshold.generate()
+    if not GeolocalizedVoters.exists():
+        GeolocalizedVoters.generate()
 
-    if not MinimalGeoVoters.exists():
-        MinimalGeoVoters.generate()
+    if not MinimalGeolocalizedVoters.exists():
+        MinimalGeolocalizedVoters.generate()
 
     if not DeputiesWithParticipation.exists():
         DeputiesWithParticipation.generate()

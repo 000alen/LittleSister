@@ -1,7 +1,8 @@
 from argparse import ArgumentParser
 
 import LittleSister.Database as Database
-from LittleSister.Probability import generate_probability_table, generate_probability_table_json, generate_probability_point
+from LittleSister.Database.ProbabilityTable import ProbabilityTable
+from LittleSister.Database.ProbabilityPoint import ProbabilityPoint
 
 parser = ArgumentParser(
     "LittleSister",
@@ -37,8 +38,5 @@ args = parser.parse_args()
 if args.generate_database:
     Database.generate()
 elif args.generate_point:
-    print(args.probability_threshold)
-
-    generate_probability_table(args.commune_identifier, args.candidate_name, args.probability_threshold)
-    generate_probability_table_json(args.commune_identifier, args.candidate_name, args.probability_threshold)
-    generate_probability_point(args.commune_identifier, args.candidate_name, args.probability_threshold)
+    ProbabilityTable.generate(args.commune_identifier, args.candidate_name, args.probability_threshold)
+    ProbabilityPoint.generate(args.commune_identifier, args.candidate_name, args.probability_threshold)

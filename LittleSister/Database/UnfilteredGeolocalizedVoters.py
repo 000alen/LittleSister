@@ -9,9 +9,9 @@ import LittleSister.Database as Database
 from LittleSister.Database.Voters import Voters
 
 
-class GeoVoters(Database.Database):
-    path = Database.path / "geo_voters/"
-    json_path = path / "geo_voters.json"
+class UnfilteredGeolocalizedVoters(Database.Database):
+    path = Database.path / "UnfilteredGeolocalizedVoters/"
+    json_path = path / "UnfilteredGeolocalizedVoters.json"
 
     header = [
         "latitude",
@@ -26,26 +26,26 @@ class GeoVoters(Database.Database):
 
     @staticmethod
     def exists():
-        return os.path.exists(GeoVoters.json_path)
+        return os.path.exists(UnfilteredGeolocalizedVoters.json_path)
 
     @staticmethod
     async def worker_generate_table(session: aiohttp.ClientSession, data_table_path: pathlib.Path):
         data_table_name = data_table_path.name
         data_table = csv.reader(open(data_table_path))
         table = csv.writer(
-            open(GeoVoters.path / data_table_name, "w", newline=""))
+            open(UnfilteredGeolocalizedVoters.path / data_table_name, "w", newline=""))
 
         for i, row in enumerate(data_table):
             if i == 0:
-                table.writerow(GeoVoters.path)
+                table.writerow(UnfilteredGeolocalizedVoters.path)
                 continue
 
             row_information = {Database.census_header[i]: row[i]
                                for i in range(len(row))}
 
-            address = GeoVoters.pelias_address_format.format(
+            address = UnfilteredGeolocalizedVoters.pelias_address_format.format(
                 row_information["Domicilio"], row_information["Circunscripcion"])
-            async with session.get(GeoVoters.pelias_search_url, params={"text": address}) as response:
+            async with session.get(UnfilteredGeolocalizedVoters.pelias_search_url, params={"text": address}) as response:
                 response_json = await response.json()
 
                 if response_json["features"]:
@@ -64,7 +64,7 @@ class GeoVoters(Database.Database):
 
         async with aiohttp.ClientSession() as session:
             tasks = [
-                GeoVoters.worker_generate_table(session, file_path)
+                UnfilteredGeolocalizedVoters.worker_generate_table(session, file_path)
                 for file_path in voters_files_paths
             ]
 
@@ -74,4 +74,4 @@ class GeoVoters(Database.Database):
     def generate():
         print("Generating geo_voters")
         print("Pelias service must be running")
-        asyncio.run(GeoVoters.worker_generate())
+        asyncio.run(UnfilteredGeolocalizedVoters.worker_generate())

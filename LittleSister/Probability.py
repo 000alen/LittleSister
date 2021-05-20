@@ -34,6 +34,12 @@ def generate_probability_table(commune_identifier, candidate_name, probability_t
             df_deputies["Candidato"] == candidate_name)
     ]
 
+    # print(df_probability.head())
+    # print(df_probability["probability"])
+    # print(max(df_probability["probability"]))
+
+    # exit()
+
     df_probability = df_probability[df_probability["probability"]
                                     > probability_threshold]
 

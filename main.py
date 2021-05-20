@@ -1,27 +1,24 @@
 from LittleSister.Probability import (
-    generate_probability_table, 
-    generate_probability_table_json, 
+    generate_probability_table,
+    generate_probability_table_json,
     generate_probability_point
 )
-from LittleSister import communes_path
+from LittleSister import districts_path
 from json import load
 
-commune_name = "SANTIAGO"
+district = 10
 candidate_name = "GONZALO WINTER ETCHEBERRY"
-probability_threshold = 0
+probability_threshold = 0.03
 
-communes = load(open(communes_path, encoding="utf-8"))
+districts = load(open(districts_path, encoding="utf-8"))
+communes_identifiers = districts[str(district)]
 
+for commune_identifier in communes_identifiers:
+    print(commune_identifier)
 
-def get_commune_identifier(commune_name):
-    for identifier, name in communes.items():
-        if name == commune_name:
-            return identifier
-
-
-commune_identifier = get_commune_identifier(commune_name)
-print(commune_identifier)
-
-generate_probability_table(commune_identifier, candidate_name, probability_threshold)
-generate_probability_table_json(commune_identifier, candidate_name, probability_threshold)
-generate_probability_point(commune_identifier, candidate_name, probability_threshold)
+    generate_probability_table(
+        commune_identifier, candidate_name, probability_threshold)
+    generate_probability_table_json(
+        commune_identifier, candidate_name, probability_threshold)
+    generate_probability_point(
+        commune_identifier, candidate_name, probability_threshold)

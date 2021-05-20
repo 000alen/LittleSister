@@ -2,6 +2,7 @@
 census/
 geo_voters/
 minimal_geo_voters/
+minimal_geo_voters_no_threshold/
 probability_point/
 probability_table/
 voters/
@@ -11,6 +12,7 @@ minimal_deputies_with_probability.csv
 deputies.csv
 sandbox.*
 notebook/
+geojson/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

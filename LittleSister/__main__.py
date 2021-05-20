@@ -1,6 +1,6 @@
 from argparse import ArgumentParser
 
-from LittleSister.Database import setup
+import LittleSister.Database as Database
 from LittleSister.Probability import generate_probability_table, generate_probability_table_json, generate_probability_point
 
 parser = ArgumentParser(
@@ -9,9 +9,9 @@ parser = ArgumentParser(
 )
 
 parser.add_argument(
-    "--setup-database",
+    "--generate-database",
     action="store_true",
-    help="starts the setup proccess for the database"
+    help="starts the generate proccess for the database"
 )
 
 parser.add_argument(
@@ -34,8 +34,8 @@ parser.add_argument(
 
 args = parser.parse_args()
 
-if args.setup_database:
-    setup()
+if args.generate_database:
+    Database.generate()
 elif args.generate_point:
     print(args.probability_threshold)
 

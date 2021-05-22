@@ -7,7 +7,7 @@ from LittleSister.Visualization import view
 
 district = 10
 candidate_name = "GONZALO WINTER ETCHEBERRY"
-probability_threshold = 0.03
+probability_threshold = 0
 
 districts = json.load(open(districts_path, encoding="utf-8"))
 communes_identifiers = districts[str(district)]

@@ -1,4 +1,5 @@
 aiohttp
 pandas
 geopandas
+geoplot
 folium

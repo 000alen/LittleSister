@@ -38,9 +38,11 @@ def view(district, candidate_name, probability_threshold):
 
     folium_map = folium.Map(location=[-33.4, -70.6], zoom_start=11)
     heat_data = [[point.xy[1][0], point.xy[0][0]] for point in geo_dataframe.geometry]
-    folium.plugins.HeatMap(heat_data, radius=10).add_to(folium_map)
+
+    folium.plugins.HeatMap(heat_data, radius=10, min_opacity=0.3).add_to(folium_map)
     folium.plugins.FastMarkerCluster(heat_data).add_to(folium_map)
+    folium.plugins.Draw().add_to(folium_map)
     folium.LayerControl().add_to(folium_map)
 
-    # view.save("index.html")
-    app.run()
+    folium_map.save("index.html")
+    # app.run()

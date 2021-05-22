@@ -1,5 +1,11 @@
 # `database/`
 
-Para descargar las bases de datos requeridas debes, primero, descargar la carpeta de [census/](.) y extraerla en este mismo directorio.
+Aquí se almacenan todas las bases de datos y tablas.
 
-Segundo, debes descargar el archivo [deputies.csv](.) en este mismo directorio.
+# Instalación
+
+Para descargar las bases de datos necesarias se deben descargar los siguientes archivos en este directorio:
+
+- [`census/`]()
+- [`deputies.csv`]()
+- [`geojson/`]()

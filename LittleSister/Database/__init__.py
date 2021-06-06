@@ -1,7 +1,7 @@
+import abc
+import csv
 import logging
 import pathlib
-import csv
-import abc
 
 path = pathlib.Path("./database/")
 geojson_path = path / "geojson/"
@@ -31,6 +31,7 @@ if not candidates_per_district_path.is_file():
     raise Exception(
         "The database/candidates_per_district.json file does not exist")
 
+
 class Database(abc.ABC):
     @abc.abstractstaticmethod
     def exists():
@@ -57,9 +58,10 @@ def initialize():
     logging.info("Initializing Database")
 
     from LittleSister.Database.DeputiesElection import DeputiesElection
-    from LittleSister.Database.Voters import Voters
-    from LittleSister.Database.UnfilteredGeolocalizedVoters import UnfilteredGeolocalizedVoters
     from LittleSister.Database.GeolocalizedVoters import GeolocalizedVoters
+    from LittleSister.Database.UnfilteredGeolocalizedVoters import \
+        UnfilteredGeolocalizedVoters
+    from LittleSister.Database.Voters import Voters
 
     if not DeputiesElection.exists():
         DeputiesElection.generate()

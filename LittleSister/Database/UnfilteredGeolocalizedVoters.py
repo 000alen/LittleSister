@@ -1,11 +1,11 @@
-import os
 import asyncio
-import pathlib
-import aiohttp
-import json
 import csv
+import json
 import logging
+import os
+import pathlib
 
+import aiohttp
 import LittleSister.Database as Database
 from LittleSister.Database.Voters import Voters
 
@@ -64,7 +64,8 @@ class UnfilteredGeolocalizedVoters(Database.Database):
 
         async with aiohttp.ClientSession() as session:
             tasks = [
-                UnfilteredGeolocalizedVoters.worker_generate_table(session, file_path)
+                UnfilteredGeolocalizedVoters.worker_generate_table(
+                    session, file_path)
                 for file_path in voters_files_paths
             ]
 

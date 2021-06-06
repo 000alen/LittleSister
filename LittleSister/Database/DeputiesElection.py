@@ -1,7 +1,6 @@
+import csv
 import logging
 import os
-import csv
-import pandas
 
 import LittleSister.Database as Database
 

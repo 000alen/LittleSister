@@ -1,11 +1,12 @@
-import os
 import json
-import geopandas
-import pandas
 import logging
+import os
 
+import geopandas
 import LittleSister.Database as Database
-from LittleSister.Database.UnfilteredGeolocalizedVoters import UnfilteredGeolocalizedVoters
+import pandas
+from LittleSister.Database.UnfilteredGeolocalizedVoters import \
+    UnfilteredGeolocalizedVoters
 
 
 class GeolocalizedVoters(Database.Database):
@@ -36,7 +37,8 @@ class GeolocalizedVoters(Database.Database):
         for identifier, file_name in geo_voters_json.items():
             logging.info(f"Current file: {identifier}.csv")
 
-            current_geo_voters = pandas.read_csv(UnfilteredGeolocalizedVoters.path / file_name)
+            current_geo_voters = pandas.read_csv(
+                UnfilteredGeolocalizedVoters.path / file_name)
 
             current_points = geopandas.points_from_xy(
                 current_geo_voters.longitude, current_geo_voters.latitude)

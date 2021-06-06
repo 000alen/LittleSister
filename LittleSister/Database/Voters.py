@@ -1,6 +1,6 @@
-import os
 import json
 import logging
+import os
 
 import LittleSister.Database as Database
 from LittleSister.Database.ElectoralCensus import ElectoralCensus

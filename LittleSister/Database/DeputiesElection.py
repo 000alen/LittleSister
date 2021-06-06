@@ -1,3 +1,4 @@
+import logging
 import os
 import csv
 import pandas
@@ -42,12 +43,13 @@ class DeputiesElection(Database.Database):
 
     @staticmethod
     def generate():
+        logging.info("Generating DeputiesElection")
         DeputiesElection.generate_stage_1()
         DeputiesElection.generate_stage_2()
 
     @staticmethod
     def generate_stage_1():
-        print("Generating deputies_with_participation")
+        logging.info("Generating DeputiesElection stage 1")
 
         stage_0 = csv.reader(open(DeputiesElection.path_stage_0))
         stage_1 = csv.writer(
@@ -144,7 +146,7 @@ class DeputiesElection(Database.Database):
 
     @staticmethod
     def generate_stage_2():
-        print("Generating deputies_with_probability")
+        logging.info("Generating DeputiesElection stage 2")
 
         stage_1 = csv.reader(
             open(DeputiesElection.path_stage_1))

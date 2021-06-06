@@ -4,6 +4,7 @@ import pathlib
 import aiohttp
 import json
 import csv
+import logging
 
 import LittleSister.Database as Database
 from LittleSister.Database.Voters import Voters
@@ -31,6 +32,7 @@ class UnfilteredGeolocalizedVoters(Database.Database):
     @staticmethod
     async def worker_generate_table(session: aiohttp.ClientSession, data_table_path: pathlib.Path):
         data_table_name = data_table_path.name
+        logging.info(f"Current file: {data_table_name}.csv")
         data_table = csv.reader(open(data_table_path))
         table = csv.writer(
             open(UnfilteredGeolocalizedVoters.path / data_table_name, "w", newline=""))
@@ -54,8 +56,6 @@ class UnfilteredGeolocalizedVoters(Database.Database):
 
                     table.writerow([latitude, longitude, *row[1::]])
 
-        print(f"Done: {data_table_name}")
-
     @staticmethod
     async def worker_generate():
         voters_json = json.load(Voters.json_path)
@@ -72,6 +72,6 @@ class UnfilteredGeolocalizedVoters(Database.Database):
 
     @staticmethod
     def generate():
-        print("Generating geo_voters")
-        print("Pelias service must be running")
+        logging.info("Generating UnfilteredGeolocalizedVoters")
+        logging.warning("Pelias service must be running")
         asyncio.run(UnfilteredGeolocalizedVoters.worker_generate())

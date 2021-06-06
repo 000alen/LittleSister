@@ -3,6 +3,7 @@ import csv
 import json
 import pandas
 import re
+import logging
 
 import LittleSister.Database as Database
 from LittleSister.Database.GeolocalizedVoters import GeolocalizedVoters
@@ -22,7 +23,7 @@ class DeputiesProbabilityPoint(Database.Database):
 
     @staticmethod
     def generate(commune_identifier, candidate_name, probability_threshold):
-        print("Generating probability_point")
+        logging.info("Generating DeputiesProbabilityPoint")
 
         if not os.path.exists(DeputiesProbabilityPoint.path):
             os.mkdir(DeputiesProbabilityPoint.path)

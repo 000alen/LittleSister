@@ -1,3 +1,4 @@
+import logging
 import pathlib
 import csv
 import abc
@@ -53,7 +54,7 @@ class Database(abc.ABC):
 
 
 def initialize():
-    print("Starting setup")
+    logging.info("Initializing Database")
 
     from LittleSister.Database.DeputiesElection import DeputiesElection
     from LittleSister.Database.Voters import Voters

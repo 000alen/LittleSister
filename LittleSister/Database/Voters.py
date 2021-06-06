@@ -1,5 +1,6 @@
 import os
 import json
+import logging
 
 import LittleSister.Database as Database
 from LittleSister.Database.ElectoralCensus import ElectoralCensus
@@ -22,13 +23,16 @@ class Voters(Database.Database):
 
     @staticmethod
     def generate():
+        logging.info("Generating Voters")
+
         if not os.path.exists(Voters.path):
+            logging.debug("Voters folder does not exist; creating folder")
             os.mkdir(Voters.path)
 
         census_json = json.load(
             open(ElectoralCensus.json_path, encoding="utf-8"))
         for file_name in census_json.values():
-            print(f"Current file: {file_name}")
+            logging.info(f"Current file: {file_name}")
 
             Voters.filter(
                 ElectoralCensus.path / file_name,

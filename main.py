@@ -13,7 +13,6 @@ districts = json.load(open(districts_path, encoding="utf-8"))
 communes_identifiers = districts[str(district)]
 
 for commune_identifier in communes_identifiers:
-    print(f"Current: {commune_identifier}")
     DeputiesProbabilityTable.generate(
         commune_identifier, candidate_name, probability_threshold)
     DeputiesProbabilityPoint.generate(

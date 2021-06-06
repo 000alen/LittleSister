@@ -3,6 +3,7 @@ import csv
 import json
 import pandas
 import re
+import logging
 
 import LittleSister.Database as Database
 from LittleSister.Database.DeputiesElection import DeputiesElection
@@ -21,7 +22,7 @@ class DeputiesProbabilityTable(Database.Database):
 
     @staticmethod
     def generate_csv(commune_identifier, candidate_name, probability_threshold):
-        print("Generating probability_table")
+        logging.info(f"Current file: {commune_identifier}.csv")
 
         if not os.path.exists(DeputiesProbabilityTable.path):
             os.mkdir(DeputiesProbabilityTable.path)
@@ -52,7 +53,7 @@ class DeputiesProbabilityTable(Database.Database):
 
     @staticmethod
     def generate(commune_identifier, candidate_name, probability_threshold):
-        print("Generating probability_table_json")
+        logging.info("Generating DeputiesProbabilityTable")
 
         if not os.path.exists(DeputiesProbabilityTable.path):
             os.mkdir(DeputiesProbabilityTable.path)

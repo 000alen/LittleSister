@@ -2,6 +2,7 @@ import os
 import json
 import geopandas
 import pandas
+import logging
 
 import LittleSister.Database as Database
 from LittleSister.Database.UnfilteredGeolocalizedVoters import UnfilteredGeolocalizedVoters
@@ -25,7 +26,7 @@ class GeolocalizedVoters(Database.Database):
 
     @staticmethod
     def generate():
-        print("Generating geo_voters_threshold")
+        logging.info("Generating GeolocalizedVotes")
 
         if not os.path.exists(GeolocalizedVoters.path):
             os.mkdir(GeolocalizedVoters.path)
@@ -33,7 +34,7 @@ class GeolocalizedVoters(Database.Database):
         geo_voters_json = json.load(
             open(UnfilteredGeolocalizedVoters.json_path, encoding="utf-8"))
         for identifier, file_name in geo_voters_json.items():
-            print(f"current: {identifier}")
+            logging.info(f"Current file: {identifier}.csv")
 
             current_geo_voters = pandas.read_csv(UnfilteredGeolocalizedVoters.path / file_name)
 

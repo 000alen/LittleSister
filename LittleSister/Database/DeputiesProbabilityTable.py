@@ -9,8 +9,7 @@ from LittleSister.Database.DeputiesElection import DeputiesElection
 
 
 class DeputiesProbabilityTable(Database.Database):
-    path = Database.path / "ProbabilityTable/"
-    json_path = Database.path / "ProbabilityPoint/"
+    path = Database.path / "DeputiesProbabilityTable/"
 
     name_format = "{}_{}_{}.csv"
     json_name_format = "{}_{}_{}.json"

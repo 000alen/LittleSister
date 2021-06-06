@@ -10,7 +10,7 @@ from LittleSister.Database.DeputiesProbabilityTable import DeputiesProbabilityTa
 
 
 class DeputiesProbabilityPoint(Database.Database):
-    path = Database.path / "ProbabilityPoint/"
+    path = Database.path / "DeputiesProbabilityPoint/"
 
     name_format = "{}_{}_{}.csv"
 

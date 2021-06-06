@@ -27,7 +27,7 @@ class DeputiesProbabilityPoint(Database.Database):
         if not os.path.exists(DeputiesProbabilityPoint.path):
             os.mkdir(DeputiesProbabilityPoint.path)
 
-        probability_table_json = json.load(open(DeputiesProbabilityTable.json_path / DeputiesProbabilityTable.json_name_format.format(
+        probability_table_json = json.load(open(DeputiesProbabilityTable.path / DeputiesProbabilityTable.json_name_format.format(
             commune_identifier, re.sub(r" +", "_", candidate_name), probability_threshold)))
 
         minimal_geo_voters = csv.reader(

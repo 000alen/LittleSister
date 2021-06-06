@@ -68,5 +68,5 @@ class DeputiesProbabilityTable(Database.Database):
             if i != 0
         }
 
-        json.dump(probability_table_json, open(DeputiesProbabilityTable.json_path /
+        json.dump(probability_table_json, open(DeputiesProbabilityTable.path /
                                                DeputiesProbabilityTable.json_name_format.format(commune_identifier, re.sub(r" +", "_", candidate_name), probability_threshold), "w"))

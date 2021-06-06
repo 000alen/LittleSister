@@ -1,8 +1,8 @@
 import json
 
 from LittleSister.Database import districts_path
-from LittleSister.Database.ProbabilityTable import ProbabilityTable
-from LittleSister.Database.ProbabilityPoint import ProbabilityPoint
+from LittleSister.Database.DeputiesProbabilityTable import DeputiesProbabilityTable
+from LittleSister.Database.DeputiesProbabilityPoint import DeputiesProbabilityPoint
 from LittleSister.Visualization import view
 
 district = 10
@@ -14,9 +14,9 @@ communes_identifiers = districts[str(district)]
 
 for commune_identifier in communes_identifiers:
     print(f"Current: {commune_identifier}")
-    ProbabilityTable.generate(
+    DeputiesProbabilityTable.generate(
         commune_identifier, candidate_name, probability_threshold)
-    ProbabilityPoint.generate(
+    DeputiesProbabilityPoint.generate(
         commune_identifier, candidate_name, probability_threshold)
 
 view(district, candidate_name, probability_threshold)

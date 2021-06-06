@@ -3,10 +3,7 @@ import csv
 import abc
 
 path = pathlib.Path("./database/")
-census_path = path / "census/"
-census_json_path = census_path / "census.json"
 geojson_path = path / "geojson/"
-deputies_path = path / "deputies.csv"
 candidates_per_district_path = path / "candidates_per_district.json"
 communes_location_path = path / "communes_location.json"
 communes_path = path / "communes.json"
@@ -33,53 +30,6 @@ if not candidates_per_district_path.is_file():
     raise Exception(
         "The database/candidates_per_district.json file does not exist")
 
-if not census_path.is_dir():
-    raise Exception("The database/census/ folder does not exist")
-
-if not census_json_path.is_file():
-    raise Exception("The database/census/census.json file does not exist")
-
-if not deputies_path.is_file():
-    raise Exception("The database/deputies.csv file does not exist")
-
-census_header = [
-    "RUT",
-    "DV",
-    "Proper RUT",
-    "Nombre completo",
-    "Primer nombre",
-    "Segundo nombre",
-    "Primer apellido",
-    "Segundo apellido",
-    "Sexo",
-    "Domicilio",
-    "Circunscripcion",
-    "Local?",
-    "Mesa",
-    "Pueblo",
-]
-
-deputies_header = [
-    "Región",
-    "Provincia",
-    "Circ. Senatorial",
-    "Distrito",
-    "Comuna",
-    "Circ. Electoral",
-    "Local",
-    "Nro. Mesa",
-    "Tipo Mesa",
-    "Mesas Fusionadas",
-    "Electores",
-    "Nro. En Voto",
-    "Lista",
-    "Pacto",
-    "Partido",
-    "Candidato",
-    "Votos TRICEL"
-]
-
-
 class Database(abc.ABC):
     @abc.abstractstaticmethod
     def exists():
@@ -102,16 +52,16 @@ class Database(abc.ABC):
             output_table.writerow([row[key] for key in output_header])
 
 
-def generate():
+def initialize():
     print("Starting setup")
 
+    from LittleSister.Database.DeputiesElection import DeputiesElection
     from LittleSister.Database.Voters import Voters
     from LittleSister.Database.UnfilteredGeolocalizedVoters import UnfilteredGeolocalizedVoters
     from LittleSister.Database.GeolocalizedVoters import GeolocalizedVoters
-    from LittleSister.Database.MinimalGeolocalizedVoters import MinimalGeolocalizedVoters
-    from LittleSister.Database.DeputiesWithParticipation import DeputiesWithParticipation
-    from LittleSister.Database.DeputiesWithProbability import DeputiesWithProbability
-    from LittleSister.Database.MinimalDeputiesWithProbability import MinimalDeputiesWithProbability
+
+    if not DeputiesElection.exists():
+        DeputiesElection.generate()
 
     if not Voters.exists():
         Voters.generate()
@@ -121,15 +71,3 @@ def generate():
 
     if not GeolocalizedVoters.exists():
         GeolocalizedVoters.generate()
-
-    if not MinimalGeolocalizedVoters.exists():
-        MinimalGeolocalizedVoters.generate()
-
-    if not DeputiesWithParticipation.exists():
-        DeputiesWithParticipation.generate()
-
-    if not DeputiesWithProbability.exists():
-        DeputiesWithProbability.generate()
-
-    if not MinimalDeputiesWithProbability.exists():
-        MinimalDeputiesWithProbability.generate()

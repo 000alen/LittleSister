@@ -5,11 +5,10 @@ import pandas
 import re
 
 import LittleSister.Database as Database
-from LittleSister.Database.MinimalGeolocalizedVoters import MinimalGeolocalizedVoters
-from LittleSister.Database.MinimalDeputiesWithProbability import MinimalDeputiesWithProbability
+from LittleSister.Database.DeputiesElection import DeputiesElection
 
 
-class ProbabilityTable(Database.Database):
+class DeputiesProbabilityTable(Database.Database):
     path = Database.path / "ProbabilityTable/"
     json_path = Database.path / "ProbabilityPoint/"
 
@@ -25,13 +24,13 @@ class ProbabilityTable(Database.Database):
     def generate_csv(commune_identifier, candidate_name, probability_threshold):
         print("Generating probability_table")
 
-        if not os.path.exists(ProbabilityTable.path):
-            os.mkdir(ProbabilityTable.path)
+        if not os.path.exists(DeputiesProbabilityTable.path):
+            os.mkdir(DeputiesProbabilityTable.path)
 
         communes = json.load(open(Database.communes_path, encoding="utf-8"))
         commune_name = communes[commune_identifier]
 
-        df_deputies = pandas.read_csv(MinimalDeputiesWithProbability.path)
+        df_deputies = pandas.read_csv(DeputiesElection.path)
 
         df_probability = df_deputies[
             (df_deputies["Comuna"] == commune_name) & (
@@ -49,19 +48,19 @@ class ProbabilityTable(Database.Database):
 
         df_probability = df_probability[["probability", "Mesa"]]
 
-        df_probability.to_csv(ProbabilityTable.path / ProbabilityTable.name_format.format(
+        df_probability.to_csv(DeputiesProbabilityTable.path / DeputiesProbabilityTable.name_format.format(
             commune_identifier, re.sub(r" +", "_", candidate_name), probability_threshold), index=False)
 
     @staticmethod
     def generate(commune_identifier, candidate_name, probability_threshold):
         print("Generating probability_table_json")
 
-        if not os.path.exists(ProbabilityTable.path):
-            os.mkdir(ProbabilityTable.path)
+        if not os.path.exists(DeputiesProbabilityTable.path):
+            os.mkdir(DeputiesProbabilityTable.path)
 
-        ProbabilityTable.generate_csv(commune_identifier, candidate_name, probability_threshold)
+        DeputiesProbabilityTable.generate_csv(commune_identifier, candidate_name, probability_threshold)
 
-        probability_table = csv.reader(open(ProbabilityTable.path / ProbabilityTable.name_format.format(
+        probability_table = csv.reader(open(DeputiesProbabilityTable.path / DeputiesProbabilityTable.name_format.format(
             commune_identifier, re.sub(r" +", "_", candidate_name), probability_threshold)))
 
         probability_table_json = {
@@ -70,5 +69,5 @@ class ProbabilityTable(Database.Database):
             if i != 0
         }
 
-        json.dump(probability_table_json, open(ProbabilityTable.json_path /
-                                               ProbabilityTable.json_name_format.format(commune_identifier, re.sub(r" +", "_", candidate_name), probability_threshold), "w"))
+        json.dump(probability_table_json, open(DeputiesProbabilityTable.json_path /
+                                               DeputiesProbabilityTable.json_name_format.format(commune_identifier, re.sub(r" +", "_", candidate_name), probability_threshold), "w"))

@@ -2,6 +2,7 @@ import os
 import json
 
 import LittleSister.Database as Database
+from LittleSister.Database.ElectoralCensus import ElectoralCensus
 
 
 class Voters(Database.Database):
@@ -25,13 +26,13 @@ class Voters(Database.Database):
             os.mkdir(Voters.path)
 
         census_json = json.load(
-            open(Database.census_json_path, encoding="utf-8"))
+            open(ElectoralCensus.json_path, encoding="utf-8"))
         for file_name in census_json.values():
             print(f"Current file: {file_name}")
 
             Voters.filter(
-                Database.census_path / file_name,
-                Database.census_header,
+                ElectoralCensus.path / file_name,
+                ElectoralCensus.header,
                 Voters.path / file_name,
                 Voters.header
             )

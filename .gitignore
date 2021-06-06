@@ -1,19 +1,15 @@
 .vscode/
-census/
-deputies.csv
 geojson/
+
+ElectoralCensus/
+DeputiesElection/
 
 Voters/
 UnfilteredGeolocalizedVoters/
 GeolocalizedVoters/
-MinimalGeolocalizedVoters/
 
-ProbabilityTable/
-ProbabilityPoint/
-
-deputies_with_participation.csv
-deputies_with_probability.csv
-minimal_deputies_with_probability.csv
+DeputiesProbabilityTable/
+DeputiesProbabilityPoint/
 
 dev_notebook/
 

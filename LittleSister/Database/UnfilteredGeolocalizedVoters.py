@@ -40,7 +40,7 @@ class UnfilteredGeolocalizedVoters(Database.Database):
                 table.writerow(UnfilteredGeolocalizedVoters.path)
                 continue
 
-            row_information = {Database.census_header[i]: row[i]
+            row_information = {Voters.header[i]: row[i]
                                for i in range(len(row))}
 
             address = UnfilteredGeolocalizedVoters.pelias_address_format.format(

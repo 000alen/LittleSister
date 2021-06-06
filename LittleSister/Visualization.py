@@ -7,7 +7,7 @@ import flask
 import re
 
 from LittleSister.Database import districts_path
-from LittleSister.Database.ProbabilityPoint import ProbabilityPoint
+from LittleSister.Database.DeputiesProbabilityPoint import DeputiesProbabilityPoint
 
 
 def view(district, candidate_name, probability_threshold):
@@ -21,7 +21,7 @@ def view(district, candidate_name, probability_threshold):
     communes_identifiers = districts[str(district)]
 
     files_paths = [
-        ProbabilityPoint.path / ProbabilityPoint.name_format.format(commune_identifier, re.sub(r" +", "_", candidate_name), probability_threshold)
+        DeputiesProbabilityPoint.path / DeputiesProbabilityPoint.name_format.format(commune_identifier, re.sub(r" +", "_", candidate_name), probability_threshold)
         for commune_identifier in communes_identifiers
     ]
 

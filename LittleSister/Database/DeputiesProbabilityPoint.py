@@ -5,12 +5,11 @@ import pandas
 import re
 
 import LittleSister.Database as Database
-from LittleSister.Database.MinimalGeolocalizedVoters import MinimalGeolocalizedVoters
-from LittleSister.Database.MinimalDeputiesWithProbability import MinimalDeputiesWithProbability
-from LittleSister.Database.ProbabilityTable import ProbabilityTable
+from LittleSister.Database.GeolocalizedVoters import GeolocalizedVoters
+from LittleSister.Database.DeputiesProbabilityTable import DeputiesProbabilityTable
 
 
-class ProbabilityPoint(Database.Database):
+class DeputiesProbabilityPoint(Database.Database):
     path = Database.path / "ProbabilityPoint/"
 
     name_format = "{}_{}_{}.csv"
@@ -25,17 +24,17 @@ class ProbabilityPoint(Database.Database):
     def generate(commune_identifier, candidate_name, probability_threshold):
         print("Generating probability_point")
 
-        if not os.path.exists(ProbabilityPoint.path):
-            os.mkdir(ProbabilityPoint.path)
+        if not os.path.exists(DeputiesProbabilityPoint.path):
+            os.mkdir(DeputiesProbabilityPoint.path)
 
-        probability_table_json = json.load(open(ProbabilityTable.json_path / ProbabilityTable.json_name_format.format(
+        probability_table_json = json.load(open(DeputiesProbabilityTable.json_path / DeputiesProbabilityTable.json_name_format.format(
             commune_identifier, re.sub(r" +", "_", candidate_name), probability_threshold)))
 
         minimal_geo_voters = csv.reader(
-            open(MinimalGeolocalizedVoters.path / f"{commune_identifier}.csv"))
+            open(GeolocalizedVoters.path / f"{commune_identifier}.csv"))
 
         probability_point = csv.writer(
-            open(ProbabilityPoint.path / ProbabilityPoint.name_format.format(commune_identifier, re.sub(r" +", "_", candidate_name), probability_threshold), "w", newline=""))
+            open(DeputiesProbabilityPoint.path / DeputiesProbabilityPoint.name_format.format(commune_identifier, re.sub(r" +", "_", candidate_name), probability_threshold), "w", newline=""))
 
         for i, row in enumerate(minimal_geo_voters):
             if i == 0:
@@ -44,7 +43,7 @@ class ProbabilityPoint(Database.Database):
                 continue
 
             row = {
-                MinimalGeolocalizedVoters.header[j]: row[j] for j in range(len(row))}
+                GeolocalizedVoters.header[j]: row[j] for j in range(len(row))}
 
             probability_point.writerow([row["latitude"], row["longitude"],
                                         probability_table_json.get(row["Mesa"], 0)])

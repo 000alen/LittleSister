@@ -1,8 +1,8 @@
 from argparse import ArgumentParser
 
 import LittleSister.Database as Database
-from LittleSister.Database.ProbabilityTable import ProbabilityTable
-from LittleSister.Database.ProbabilityPoint import ProbabilityPoint
+from LittleSister.Database.DeputiesProbabilityTable import DeputiesProbabilityTable
+from LittleSister.Database.DeputiesProbabilityPoint import DeputiesProbabilityPoint
 
 parser = ArgumentParser(
     "LittleSister",
@@ -10,7 +10,7 @@ parser = ArgumentParser(
 )
 
 parser.add_argument(
-    "--generate-database",
+    "--initialize-database",
     action="store_true",
     help="starts the generate proccess for the database"
 )
@@ -36,7 +36,7 @@ parser.add_argument(
 args = parser.parse_args()
 
 if args.generate_database:
-    Database.generate()
+    Database.initialize()
 elif args.generate_point:
-    ProbabilityTable.generate(args.commune_identifier, args.candidate_name, args.probability_threshold)
-    ProbabilityPoint.generate(args.commune_identifier, args.candidate_name, args.probability_threshold)
+    DeputiesProbabilityTable.generate(args.commune_identifier, args.candidate_name, args.probability_threshold)
+    DeputiesProbabilityPoint.generate(args.commune_identifier, args.candidate_name, args.probability_threshold)
